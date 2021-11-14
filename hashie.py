@@ -21,7 +21,7 @@ hcxpcapngtool needed, to install:
 
 class hashie(plugins.Plugin):
     __author__ = 'junohea.mail@gmail.com'
-    __version__ = '1.0.2'
+    __version__ = '1.0.3'
     __license__ = 'GPL3'
     __description__ = '''
                         Attempt to automatically convert pcaps to a crackable format.
@@ -59,7 +59,7 @@ class hashie(plugins.Plugin):
                         '''
     
     def __init__(self):
-        logging.info("[hashie] plugin loaded")
+        logging.info("[hashie] plugin loaded (%s)" % self.__version__)
         self.lock = Lock()
 
     # called when everything is ready and the main loop is about to start
@@ -93,6 +93,7 @@ class hashie(plugins.Plugin):
     def _writeEAPOL(self, fullpath):
         fullpathNoExt = fullpath.split('.')[0]
         filename = fullpath.split('/')[-1:][0].split('.')[0]
+        logging.debug('[hashie] hcxpcapngtool -o {}.22000 {} >/dev/null 2>&1'.format(fullpathNoExt,fullpath))
         result = subprocess.getoutput('hcxpcapngtool -o {}.22000 {} >/dev/null 2>&1'.format(fullpathNoExt,fullpath))
         if os.path.isfile(fullpathNoExt +  '.22000'):
             logging.debug('[hashie] [+] EAPOL Success: {}.22000 created'.format(filename))
